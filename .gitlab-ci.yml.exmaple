@@ -1,0 +1,108 @@
+stages:
+  - build-7.4
+  - build-8.0
+  - build-8.0-alpine
+  - build-8.1
+  - build-8.1-alpine
+
+build-7.4:
+  stage: build-7.4
+  image:
+    name: gcr.io/kaniko-project/executor:v1.7.0-debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - >
+      echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}"
+      > /kaniko/.docker/config.json
+    - >
+    - /kaniko/executor --context $CI_PROJECT_DIR
+      --use-new-run
+      --snapshotMode=redo
+      --dockerfile $CI_PROJECT_DIR/7.4/Dockerfile
+      --destination $CI_REGISTRY_IMAGE/cmg-php-fpm:7.4
+  only:
+    changes:
+      - 7.4/Dockerfile
+
+build-8.0:
+  stage: build-8.0
+  image:
+    name: gcr.io/kaniko-project/executor:v1.7.0-debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - >
+      echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}"
+      > /kaniko/.docker/config.json
+    - >
+    - /kaniko/executor --context $CI_PROJECT_DIR
+      --use-new-run
+      --snapshotMode=redo
+      --dockerfile $CI_PROJECT_DIR/8.0/Dockerfile
+      --destination $CI_REGISTRY_IMAGE/cmg-php-fpm:8.0
+  only:
+    changes:
+      - 8.0/Dockerfile
+
+build-8.0-alpine:
+  stage: build-8.0-alpine
+  image:
+    name: gcr.io/kaniko-project/executor:v1.7.0-debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - >
+      echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}"
+      > /kaniko/.docker/config.json
+    - >
+    - /kaniko/executor --context $CI_PROJECT_DIR
+      --use-new-run
+      --snapshotMode=redo
+      --dockerfile $CI_PROJECT_DIR/8.0-alpine/Dockerfile
+      --destination $CI_REGISTRY_IMAGE/cmg-php-fpm:8.0-alpine
+  only:
+    changes:
+      - 8.0-alpine/Dockerfile
+
+build-8.1:
+  stage: build-8.1
+  image:
+    name: gcr.io/kaniko-project/executor:v1.7.0-debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - >
+      echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}"
+      > /kaniko/.docker/config.json
+    - >
+    - /kaniko/executor --context $CI_PROJECT_DIR
+      --use-new-run
+      --snapshotMode=redo
+      --dockerfile $CI_PROJECT_DIR/8.1/Dockerfile
+      --destination $CI_REGISTRY_IMAGE/cmg-php-fpm:8.1
+  tags:
+    - nn-mini
+  only:
+    changes:
+      - 8.1/Dockerfile
+
+build-8.1-alpine:
+  stage: build-8.1-alpine
+  image:
+    name: gcr.io/kaniko-project/executor:v1.7.0-debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - >
+      echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}"
+      > /kaniko/.docker/config.json
+    - >
+    - /kaniko/executor --context $CI_PROJECT_DIR
+      --use-new-run
+      --snapshotMode=redo
+      --dockerfile $CI_PROJECT_DIR/8.1-alpine/Dockerfile
+      --destination $CI_REGISTRY_IMAGE/cmg-php-fpm:8.1-alpine
+  only:
+    changes:
+      - 8.1-alpine/Dockerfile
